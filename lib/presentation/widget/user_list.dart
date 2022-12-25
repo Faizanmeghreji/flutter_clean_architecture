@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/rendering.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:practical_one/presentation/bloc/UserBloc.dart';
 import 'package:practical_one/presentation/bloc/user_state.dart';
+import 'package:practical_one/presentation/widget/shimmer_tile.dart';
 import 'package:practical_one/presentation/widget/user_details.dart';
 import 'package:practical_one/presentation/widget/user_tile.dart';
 
@@ -36,10 +36,18 @@ class _UsersPageState extends State<UsersPage> {
           bloc: userBloc,
           builder: (context, state) {
             if (state is UserLoadingState) {
-              return Container(
-                height: 50,
-                width: 50,
-                color: Colors.blue,
+              return Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: SizedBox(
+                  width: MediaQuery.of(context).size.width,
+                  child: ListView.builder(
+                    shrinkWrap: true,
+                    itemBuilder: (context, index) {
+                      return ShimmerTile();
+                    },
+                    itemCount: 5,
+                  ),
+                ),
               );
             } else if (state is UserSuccessState) {
               return ListView.builder(

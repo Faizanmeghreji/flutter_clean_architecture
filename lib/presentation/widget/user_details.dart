@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:practical_one/models/user_model.dart';
+import 'package:practical_one/presentation/bloc/UserBloc.dart';
 import 'package:practical_one/utils/constants.dart';
 
 class UserDetailsPage extends StatefulWidget {
@@ -13,6 +14,7 @@ class UserDetailsPage extends StatefulWidget {
 
 class _UserDetailsPageState extends State<UserDetailsPage> {
   UserModel? userModel;
+  UserCubit userCubit = UserCubit();
 
   @override
   Widget build(BuildContext context) {
@@ -21,6 +23,8 @@ class _UserDetailsPageState extends State<UserDetailsPage> {
     if (arguments.containsKey('userModel')) {
       userModel = arguments['userModel'] as UserModel;
     }
+    double spaceBetween = 20;
+    double spaceBetweenRow = 8;
     return SafeArea(
       child: Scaffold(
         appBar: AppBar(
@@ -32,86 +36,147 @@ class _UserDetailsPageState extends State<UserDetailsPage> {
             child: Icon(Icons.arrow_back),
           ),
         ),
-        body: Column(
-          mainAxisAlignment: MainAxisAlignment.start,
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            Row(
-              mainAxisAlignment: MainAxisAlignment.start,
-              children: [
-                Flexible(child: Text(Constants.name),flex: 1,),
-                SizedBox(
-                  width: 15,
-                ),
-                Flexible(child: Text(userModel?.name ?? ''),flex: 2,),
-              ],
+        body: Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: Container(
+            decoration: BoxDecoration(
+                border: Border.all(
+                    width: 2, color: Color.fromRGBO(86, 82, 82, 1.0)),
+                borderRadius: BorderRadius.all(Radius.circular(12))),
+            child: Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.start,
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    children: [
+                      Expanded(
+                        child: Text(Constants.name),
+                        flex: 1,
+                      ),
+                      SizedBox(
+                        width: spaceBetween,
+                      ),
+                      Expanded(
+                        child: Text(userModel?.name ?? ''),
+                        flex: 2,
+                      ),
+                    ],
+                  ),
+                  SizedBox(
+                    height: 4,
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    children: [
+                      Expanded(
+                        child: Text(Constants.email),
+                        flex: 1,
+                      ),
+                      SizedBox(
+                        width: spaceBetween,
+                      ),
+                      Expanded(
+                        child: InkWell(
+                          onTap: () {
+                            userCubit.openEmail(userModel ?? UserModel());
+                          },
+                          child: Padding(
+                            padding: const EdgeInsets.fromLTRB(0, 4, 0, 4),
+                            child: Text(userModel?.email ?? '',style: TextStyle(color: Colors.blue)),
+                          ),
+                        ),
+                        flex: 2,
+                      ),
+                    ],
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    children: [
+                      Expanded(
+                        child: Text(Constants.phone),
+                        flex: 1,
+                      ),
+                      SizedBox(
+                        width: spaceBetween,
+                      ),
+                      Expanded(
+                        child: InkWell(
+                          onTap: () {
+                            userCubit.makingPhoneCall(userModel?.phone ?? '');
+                          },
+                          child: Padding(
+                            padding: const EdgeInsets.fromLTRB(0, 4, 0, 4),
+                            child: Text(userModel?.phone ?? '',style: TextStyle(color: Colors.blue),),
+                          ),
+                        ),
+                        flex: 2,
+                      ),
+                    ],
+                  ),
+                  SizedBox(
+                    height: 4,
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    children: [
+                      Expanded(
+                        child: Text(Constants.address),
+                        flex: 1,
+                      ),
+                      SizedBox(
+                        width: spaceBetween,
+                      ),
+                      Expanded(
+                        child: Text(userModel?.address ?? ''),
+                        flex: 2,
+                      ),
+                    ],
+                  ),
+                  SizedBox(
+                    height: spaceBetweenRow,
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    children: [
+                      Expanded(
+                        child: Text(Constants.companyName),
+                        flex: 1,
+                      ),
+                      SizedBox(
+                        width: spaceBetween,
+                      ),
+                      Expanded(
+                        child: Text(userModel?.companyName ?? ''),
+                        flex: 2,
+                      ),
+                    ],
+                  ),
+                  SizedBox(
+                    height: spaceBetweenRow,
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    children: [
+                      Expanded(
+                        child: Text(Constants.website),
+                        flex: 1,
+                      ),
+                      SizedBox(
+                        width: spaceBetween,
+                      ),
+                      Expanded(
+                        child: Text(userModel?.website ?? ''),
+                        flex: 2,
+                      ),
+                    ],
+                  ),
+                ],
+              ),
             ),
-            SizedBox(
-              height: 4,
-            ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.start,
-              children: [
-                Flexible(child: Text(Constants.email)),
-                SizedBox(
-                  width: 15,
-                ),
-                Flexible(child: Text(userModel?.email ?? '')),
-              ],
-            ),
-            SizedBox(
-              height: 4,
-            ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.start,
-              children: [
-                Flexible(child: Text(Constants.phone)),
-                SizedBox(
-                  width: 15,
-                ),
-                Flexible(child: Text(userModel?.phone ?? '')),
-              ],
-            ),
-            SizedBox(
-              height: 4,
-            ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.start,
-              children: [
-                Flexible(child: Text(Constants.address)),
-                SizedBox(
-                  width: 15,
-                ),
-                Flexible(child: Text(userModel?.address ?? '')),
-              ],
-            ),
-            SizedBox(
-              height: 4,
-            ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.start,
-              children: [
-                Flexible(child: Text(Constants.companyName)),
-                SizedBox(
-                  width: 15,
-                ),
-                Flexible(child: Text(userModel?.companyName ?? '')),
-              ],
-            ),
-            SizedBox(
-              height: 4,
-            ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.start,
-              children: [
-                Flexible(child: Text(Constants.website)),
-                SizedBox(
-                  width: 15,
-                ),
-                Flexible(child: Text(userModel?.website ?? '')),
-              ],
-            ),
-          ],
+          ),
         ),
       ),
     );

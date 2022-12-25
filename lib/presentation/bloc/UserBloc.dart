@@ -25,7 +25,7 @@ class UserCubit extends Cubit<UserState> {
     try {
       phoneServices.openDialer(mobileNumber);
     } on Exception catch (e) {
-      //todo emit error while open dialer
+      emit(ErrorOperationState(e.toString()));
     }
   }
 
@@ -33,7 +33,7 @@ class UserCubit extends Cubit<UserState> {
     try {
       phoneServices.openEmail(userModel);
     } on Exception catch (e) {
-      //todo emit error while open email
+      emit(ErrorOperationState(e.toString()));
     }
   }
 }

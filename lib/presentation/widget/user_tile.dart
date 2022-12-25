@@ -21,21 +21,21 @@ class UserTile extends StatefulWidget {
 
 class _UserTileState extends State<UserTile> {
   final double padding = 8.0;
-  final double spaceBetween = 10.0;
+  final double spaceBetween = 15.0;
 
   @override
   Widget build(BuildContext context) {
-    return InkWell(
-      onTap: () {
-        widget.onItemClick.call(widget.userModel ?? UserModel());
-      },
-      child: Padding(
-        padding: EdgeInsets.all(padding),
-        child: Container(
-          decoration: BoxDecoration(
-              border:
-                  Border.all(width: 2, color: Color.fromRGBO(86, 82, 82, 1.0)),
-              borderRadius: BorderRadius.all(Radius.circular(12))),
+    return Padding(
+      padding: EdgeInsets.all(padding),
+      child: Container(
+        decoration: BoxDecoration(
+            border:
+                Border.all(width: 2, color: Color.fromRGBO(86, 82, 82, 1.0)),
+            borderRadius: BorderRadius.all(Radius.circular(12))),
+        child: InkWell(
+          onTap: () {
+            widget.onItemClick.call(widget.userModel ?? UserModel());
+          },
           child: Padding(
             padding: EdgeInsets.all(padding),
             child: Column(
@@ -52,6 +52,7 @@ class _UserTileState extends State<UserTile> {
                     Flexible(child: Text(widget.userModel?.name ?? '')),
                   ],
                 ),
+                SizedBox(height: 4,),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.start,
                   children: [
@@ -62,16 +63,20 @@ class _UserTileState extends State<UserTile> {
                     SizedBox(
                       width: spaceBetween,
                     ),
-                    InkWell(
-                        onTap: () {
-                          widget.onEmailClick
-                              .call(widget.userModel ?? UserModel());
-                        },
-                        child: Flexible(
+                    Flexible(
+                        child: InkWell(
+                          onTap: (){
+                            widget.onEmailClick
+                                .call(widget.userModel ?? UserModel());
+                          },
+                          child: Padding(
+                            padding: const EdgeInsets.fromLTRB(0,4,0,4),
                             child: Text(
-                          widget.userModel?.email ?? '',
-                          style: TextStyle(color: Colors.blue),
-                        ))),
+                      widget.userModel?.email ?? '',
+                      style: TextStyle(color: Colors.blue),
+                    ),
+                          ),
+                        )),
                   ],
                 ),
                 Row(
@@ -81,16 +86,20 @@ class _UserTileState extends State<UserTile> {
                     SizedBox(
                       width: 10,
                     ),
-                    InkWell(
-                        onTap: () {
-                          widget.onNumberClick
-                              .call(widget.userModel?.phone ?? '');
-                        },
-                        child: Flexible(
+                    Flexible(
+                        child: InkWell(
+                          onTap: (){
+                            widget.onNumberClick
+                                .call(widget.userModel?.phone ?? '');
+                          },
+                          child: Padding(
+                            padding: const EdgeInsets.fromLTRB(0,4,0,4),
                             child: Text(
-                          widget.userModel?.phone ?? '',
-                          style: TextStyle(color: Colors.blue),
-                        ))),
+                      widget.userModel?.phone ?? '',
+                      style: TextStyle(color: Colors.blue),
+                    ),
+                          ),
+                        )),
                   ],
                 ),
               ],
