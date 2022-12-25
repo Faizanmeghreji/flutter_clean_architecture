@@ -1,14 +1,15 @@
 import 'package:bloc/bloc.dart';
 import 'package:practical_one/models/user_model.dart';
 import 'package:practical_one/presentation/bloc/user_state.dart';
-import 'package:practical_one/repository/user_repo.dart';
-import 'package:practical_one/utils/services/phone_services.dart';
+import 'package:practical_one/repository/i_user_repo.dart';
+import 'package:practical_one/utils/services/i_phone_services.dart';
 
 class UserCubit extends Cubit<UserState> {
-  var userRepo = UserRepo();
-  var phoneServices = PhoneServices();
+  final IUserRepo userRepo;
+  final IPhoneServices phoneServices;
 
-  UserCubit() : super(InitialUserState());
+  UserCubit({required this.userRepo, required this.phoneServices})
+      : super(InitialUserState());
 
   void getUserList() async {
     emit(UserLoadingState());
@@ -22,10 +23,14 @@ class UserCubit extends Cubit<UserState> {
   }
 
   void makingPhoneCall(String mobileNumber) async {
+    /* emit(ErrorOperationState(
+        errorMessage: '', timeStamp: DateTime.now().microsecond));
+*/
     try {
       phoneServices.openDialer(mobileNumber);
     } on Exception catch (e) {
-      emit(ErrorOperationState(e.toString()));
+      emit(ErrorOperationState(
+          errorMessage: e.toString(), timeStamp: DateTime.now().millisecond));
     }
   }
 
@@ -33,7 +38,8 @@ class UserCubit extends Cubit<UserState> {
     try {
       phoneServices.openEmail(userModel);
     } on Exception catch (e) {
-      emit(ErrorOperationState(e.toString()));
+      emit(ErrorOperationState(
+          errorMessage: e.toString(), timeStamp: DateTime.now().millisecond));
     }
   }
 }

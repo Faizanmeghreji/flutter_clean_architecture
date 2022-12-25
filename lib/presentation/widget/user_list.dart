@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:practical_one/di/register_objects.dart';
 import 'package:practical_one/presentation/bloc/UserBloc.dart';
 import 'package:practical_one/presentation/bloc/user_state.dart';
 import 'package:practical_one/presentation/widget/shimmer_tile.dart';
 import 'package:practical_one/presentation/widget/user_details.dart';
 import 'package:practical_one/presentation/widget/user_tile.dart';
+import 'package:practical_one/utils/alert_dialog.dart';
 
 class UsersPage extends StatefulWidget {
   const UsersPage({Key? key}) : super(key: key);
@@ -19,7 +21,7 @@ class _UsersPageState extends State<UsersPage> {
 
   @override
   void initState() {
-    userBloc = UserCubit();
+    userBloc = sl.get<UserCubit>();
     userBloc.getUserList();
     super.initState();
   }
@@ -32,8 +34,25 @@ class _UsersPageState extends State<UsersPage> {
       ),
       body: SingleChildScrollView(
         physics: ScrollPhysics(),
-        child: BlocBuilder<UserCubit, UserState>(
+        child: BlocConsumer<UserCubit, UserState>(
+          listener: (context, state) {
+            if (state is ErrorOperationState) {
+              showAlertDialog(
+                  context: context,
+                  title: 'Error',
+                  description: state.errorMessage,
+                  onPositiveClick: () {
+                    Navigator.of(context).pop();
+                  },
+                  positiveButton: 'Ok');
+            }
+          },
           bloc: userBloc,
+          buildWhen: (preState, curState) {
+            return (curState is UserLoadingState ||
+                curState is UserSuccessState ||
+                curState is ErrorState);
+          },
           builder: (context, state) {
             if (state is UserLoadingState) {
               return Padding(
@@ -72,9 +91,12 @@ class _UsersPageState extends State<UsersPage> {
               );
             } else {
               return Container(
-                height: 50,
-                width: 50,
-                color: Colors.red,
+                child: Center(
+                  child: Text(
+                    'oops, error',
+                    style: TextStyle(color: Colors.red, fontSize: 20),
+                  ),
+                ),
               );
             }
           },

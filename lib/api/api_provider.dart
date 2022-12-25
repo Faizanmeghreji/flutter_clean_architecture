@@ -2,12 +2,15 @@ import 'package:dio/dio.dart';
 import 'package:practical_one/api/i_api_provider.dart';
 
 class ApiProvider implements IApi {
+  final Dio dioClient;
+
+  ApiProvider({required this.dioClient});
+
   @override
   Future<BaseResponse> getUserList() async {
-    var dio = Dio();
     try {
       var response =
-          await dio.get('https://jsonplaceholder.typicode.com/users');
+          await dioClient.get('https://jsonplaceholder.typicode.com/users');
       BaseResponse baseResponse = BaseResponse(
           response.statusCode, response.statusMessage, response.data);
       return baseResponse;

@@ -27,11 +27,12 @@ class ErrorState extends UserState {
 
 class ErrorOperationState extends UserState {
   final String errorMessage;
+  final int timeStamp;
 
-  ErrorOperationState(this.errorMessage);
+  ErrorOperationState({required this.errorMessage,required this.timeStamp});
 
   @override
-  List<Object?> get props => [errorMessage];
+  List<Object?> get props => [errorMessage,this.timeStamp];
 }
 
 class UserLoadingState extends UserState {
