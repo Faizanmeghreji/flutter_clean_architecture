@@ -2,7 +2,7 @@ import 'package:dio/dio.dart';
 import 'package:get_it/get_it.dart';
 import 'package:practical_one/api/api_provider.dart';
 import 'package:practical_one/api/i_api_provider.dart';
-import 'package:practical_one/presentation/bloc/UserBloc.dart';
+import 'package:practical_one/presentation/bloc/user_cubit.dart';
 import 'package:practical_one/repository/i_user_repo.dart';
 import 'package:practical_one/repository/user_repo.dart';
 import 'package:practical_one/utils/services/i_phone_services.dart';

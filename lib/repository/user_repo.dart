@@ -16,9 +16,8 @@ class UserRepo extends IUserRepo {
     if (await InternetConnectionChecker().hasConnection) {
       try {
         BaseResponse baseResponse = await apiProvider.getUserList();
-        var mUserList;
         if (baseResponse.statusCode == 200) {
-          mUserList = baseResponse.data.map<UserResponse>((e) {
+         var mUserList = baseResponse.data.map<UserResponse>((e) {
             return UserResponse.fromJson(e);
           }).toList();
           return Right(mUserList);
