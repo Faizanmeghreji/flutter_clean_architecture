@@ -5,12 +5,14 @@ import 'package:url_launcher/url_launcher.dart';
 class PhoneServices extends IPhoneServices{
   @override
   openDialer(String mobileNumber) async {
-
-      var url = Uri.parse("tel:$mobileNumber");
-      if (await canLaunchUrl(url)) {
-        await launchUrl(url);
+    final Uri _phoneUri = Uri(
+        scheme: "tel",
+        path: mobileNumber
+    );
+      if (await canLaunchUrl(_phoneUri)) {
+        await launchUrl(_phoneUri);
       } else {
-        throw 'Could not launch $url';
+        throw UnimplementedError('Unable to call');
       }
 
   }

@@ -23,14 +23,15 @@ class UserCubit extends Cubit<UserState> {
   }
 
   void makingPhoneCall(String mobileNumber) async {
-    /* emit(ErrorOperationState(
-        errorMessage: '', timeStamp: DateTime.now().microsecond));
-*/
     try {
-      phoneServices.openDialer(mobileNumber);
-    } on Exception catch (e) {
+      phoneServices.openDialer(mobileNumber
+          .replaceAll('.', '')
+          .replaceAll('x', '')
+          .replaceAll('-', '').replaceAll(' ', ''));
+    } on UnimplementedError catch (e) {
       emit(ErrorOperationState(
-          errorMessage: e.toString(), timeStamp: DateTime.now().millisecond));
+          errorMessage: e.message ?? 'unable to call',
+          timeStamp: DateTime.now().millisecond));
     }
   }
 

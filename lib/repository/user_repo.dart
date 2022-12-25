@@ -13,8 +13,6 @@ class UserRepo extends IUserRepo {
 
   @override
   Future<Either<Exception, List<UserResponse>>> getUserList() async {
-    bool isConnected = await InternetConnectionChecker().hasConnection;
-    isConnected;
     if (await InternetConnectionChecker().hasConnection) {
       try {
         BaseResponse baseResponse = await apiProvider.getUserList();
